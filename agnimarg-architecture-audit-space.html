@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AGNIMARG — Architecture, Team Split &amp; IT Security Audit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05070f;
+  --panel:#0b0f1e;
+  --panel-hi:#111629;
+  --cyan:#5ec8f0;
+  --cyan-dim:#264a63;
+  --violet:#b48af5;
+  --violet-dim:#3f3768;
+  --amber:#ffb454;
+  --text-hi:#eef1fb;
+  --text-lo:#93a0c2;
+  --text-lo2:#565f82;
+  --line: rgba(238,241,251,0.08);
+  --line-2: rgba(238,241,251,0.15);
+  --radius:4px;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0; background:var(--bg); color:var(--text-hi);
+  font-family:'Inter',sans-serif; line-height:1.6; -webkit-font-smoothing:antialiased; font-size:15px;
+  background-image:
+    radial-gradient(1px 1px at 8% 12%, rgba(238,241,251,0.55), transparent),
+    radial-gradient(1px 1px at 22% 68%, rgba(238,241,251,0.4), transparent),
+    radial-gradient(1.4px 1.4px at 38% 30%, rgba(238,241,251,0.65), transparent),
+    radial-gradient(1px 1px at 52% 82%, rgba(238,241,251,0.35), transparent),
+    radial-gradient(1.2px 1.2px at 68% 15%, rgba(238,241,251,0.5), transparent),
+    radial-gradient(1px 1px at 79% 55%, rgba(238,241,251,0.4), transparent),
+    radial-gradient(1.4px 1.4px at 91% 78%, rgba(238,241,251,0.55), transparent),
+    radial-gradient(1px 1px at 12% 92%, rgba(238,241,251,0.3), transparent),
+    radial-gradient(1px 1px at 60% 45%, rgba(238,241,251,0.3), transparent),
+    radial-gradient(ellipse 900px 500px at 20% -10%, rgba(94,200,240,0.06), transparent),
+    radial-gradient(ellipse 900px 500px at 90% 10%, rgba(180,138,245,0.05), transparent);
+  background-repeat:no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+  background-attachment:fixed;
+}
+::selection{background:var(--cyan); color:#05070f;}
+h1,h2,h3,h4{margin:0; font-family:'Space Grotesk',sans-serif; font-weight:600; letter-spacing:-0.005em; color:var(--text-hi);}
+.mono{font-family:'Space Mono',monospace;}
+a{color:var(--cyan);}
+p{color:var(--text-lo); margin:0;}
+
+/* ---------- header ---------- */
+.topbar{border-bottom:1px solid var(--line-2); padding:22px 6vw;}
+.topbar-inner{max-width:1140px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;}
+.brand{font-family:'Space Mono',monospace; font-size:13px; letter-spacing:0.05em; color:var(--text-hi);}
+.brand span{color:var(--text-lo2);}
+.meta{font-family:'Space Mono',monospace; font-size:11px; color:var(--text-lo2);}
+
+.hero{padding:60px 6vw 50px; border-bottom:1px solid var(--line);}
+.hero-inner{max-width:1140px; margin:0 auto;}
+.hero .kicker{font-family:'Space Mono',monospace; font-size:11.5px; color:var(--cyan); letter-spacing:0.12em; text-transform:uppercase; display:flex; align-items:center; gap:10px; margin-bottom:18px;}
+.hero .kicker::before{content:''; width:16px; height:1px; background:var(--cyan);}
+.hero h1{font-size:clamp(1.9rem,3.8vw,2.7rem); max-width:22ch; line-height:1.2;}
+.hero p{margin-top:14px; font-size:15.5px; max-width:68ch;}
+.hero-tags{display:flex; gap:8px; flex-wrap:wrap; margin-top:24px;}
+.htag{font-family:'Space Mono',monospace; font-size:11px; color:var(--text-lo); border:1px solid var(--line-2); padding:5px 11px; border-radius:20px;}
+
+section.wrap{max-width:1140px; margin:0 auto; padding:52px 6vw;}
+.section-head{margin-bottom:32px; max-width:74ch;}
+.section-head .eyebrow{font-family:'Space Mono',monospace; font-size:11px; color:var(--violet); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px; display:block;}
+.section-head h2{font-size:1.4rem;}
+.section-head p{margin-top:10px; font-size:14.5px;}
+.divider{border:none; border-top:1px solid var(--line); margin:0;}
+
+/* ---------- architecture diagram ---------- */
+.arch{width:100%; overflow-x:auto; border:1px solid var(--line-2); border-radius:var(--radius); background:var(--panel);}
+.arch svg{display:block; margin:0 auto; min-width:980px;}
+
+/* ---------- quadrants ---------- */
+.quadrants{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line-2); border:1px solid var(--line-2); border-radius:var(--radius); overflow:hidden;}
+.qpart{background:var(--panel); padding:26px 28px;}
+.qtop{display:flex; justify-content:space-between; align-items:center;}
+.qnum{font-family:'Space Mono',monospace; font-size:11px; color:var(--text-lo2);}
+.qowner{font-family:'Space Mono',monospace; font-size:10.5px; color:var(--text-lo); border:1px solid var(--line-2); padding:3px 9px; border-radius:20px;}
+.qname{font-size:19px; font-weight:600; margin-top:10px; letter-spacing:0.02em;}
+.qpart.p1 .qname, .qpart.p2 .qname{color:var(--cyan);}
+.qpart.p3 .qname, .qpart.p4 .qname{color:var(--violet);}
+.qsub{font-family:'Space Mono',monospace; font-size:11px; color:var(--text-lo2); margin-top:3px;}
+.qf{margin-top:18px;}
+.fl{font-family:'Space Mono',monospace; font-size:10.5px; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-lo2); display:block; margin-bottom:7px;}
+.qf ul{margin:0; padding-left:16px; font-size:13px; color:var(--text-lo);}
+.qf li{margin-bottom:4px;}
+.tags{display:flex; flex-wrap:wrap; gap:6px;}
+.tags span{font-family:'Space Mono',monospace; font-size:11px; color:var(--text-hi); background:var(--panel-hi); border:1px solid var(--line-2); padding:3px 8px; border-radius:3px;}
+.sec-box{margin-top:18px; padding:14px 16px; background:var(--panel-hi); border:1px solid var(--line); border-radius:var(--radius);}
+.sec-box .sbl{font-family:'Space Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-lo2); margin-bottom:8px; display:block;}
+.sec-box ul{margin:0; padding-left:16px; font-size:12.5px; color:var(--text-hi);}
+.sec-box li{margin-bottom:5px;}
+@media (max-width:820px){.quadrants{grid-template-columns:1fr;}}
+
+/* ---------- audit ---------- */
+.tier-block{border:1px solid var(--line-2); border-radius:var(--radius); margin-bottom:16px; overflow:hidden;}
+.tier-head{display:flex; align-items:center; gap:10px; padding:14px 20px; background:var(--panel-hi); border-bottom:1px solid var(--line-2);}
+.tier-dot{width:8px; height:8px; border-radius:50%; flex-shrink:0;}
+.tier-dot.crit{background:var(--amber);}
+.tier-dot.req{background:var(--text-lo);}
+.tier-dot.scale{background:var(--text-lo2);}
+.tier-head h3{font-size:14.5px;}
+.tier-head .tcount{font-family:'Space Mono',monospace; font-size:11px; color:var(--text-lo2); margin-left:auto;}
+.audit-row{display:grid; grid-template-columns:1fr 200px 130px; gap:16px; padding:14px 20px; border-bottom:1px solid var(--line); align-items:baseline; background:var(--panel);}
+.audit-row:last-child{border-bottom:none;}
+.audit-row .an{font-size:13.5px; color:var(--text-hi); font-weight:500;}
+.audit-row .ad{font-size:12.5px; color:var(--text-lo); margin-top:3px;}
+.audit-row .ao{font-family:'Space Mono',monospace; font-size:11px; color:var(--text-lo);}
+.audit-row .afix{font-family:'Space Mono',monospace; font-size:10.5px; color:var(--text-lo2); text-align:right;}
+@media (max-width:760px){.audit-row{grid-template-columns:1fr;} .audit-row .afix{text-align:left;}}
+
+/* ---------- controls map ---------- */
+.controls-map{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1px; background:var(--line-2); border:1px solid var(--line-2); border-radius:var(--radius); overflow:hidden;}
+.ctrl{background:var(--panel); padding:18px 20px;}
+.ctrl .cb{font-family:'Space Mono',monospace; font-size:10.5px; color:var(--text-lo2);}
+.ctrl h4{font-size:13.5px; margin-top:8px;}
+.ctrl p{font-size:12.5px; margin-top:6px;}
+
+/* ---------- plan table ---------- */
+.plan-table{width:100%; border-collapse:collapse; border:1px solid var(--line-2); border-radius:var(--radius); overflow:hidden;}
+.plan-table th{font-family:'Space Mono',monospace; font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-lo2); background:var(--panel-hi); padding:10px 12px; text-align:center; border-bottom:1px solid var(--line-2);}
+.plan-table th:first-child{text-align:left;}
+.plan-table td{padding:12px; text-align:center; font-family:'Space Mono',monospace; font-size:11px; color:var(--text-lo); border-bottom:1px solid var(--line); background:var(--panel);}
+.plan-table td.tname{text-align:left; color:var(--text-hi); font-family:'Inter',sans-serif; font-size:13.5px; font-weight:500;}
+.plan-table td.tname .ptag{display:block; font-family:'Space Mono',monospace; font-size:10px; color:var(--text-lo2); margin-bottom:2px;}
+.plan-table td.sec{color:var(--text-hi); background:var(--panel-hi);}
+.plan-table tr:last-child td{border-bottom:none;}
+
+footer{text-align:center; padding:28px 20px 40px; color:var(--text-lo2); font-family:'Space Mono',monospace; font-size:11px; border-top:1px solid var(--line);}
+@media (max-width:640px){
+  .hero{padding:46px 5vw 36px;}
+  section.wrap{padding:40px 5vw;}
+  .plan-table{font-size:10px;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">AGNIMARG <span>/ architecture &amp; audit</span></div>
+    <div class="meta">TEAM OF 4 &#183; 6-MONTH BUILD</div>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="kicker">Mission architecture</div>
+    <h1>System architecture, team split, and IT security audit</h1>
+    <p>The system divided into four equal, ownable parts — data, prediction, response, and interface — with the security review built into each part rather than added at the end.</p>
+    <div class="hero-tags">
+      <span class="htag">4 parts &#183; 1 owner each</span>
+      <span class="htag">15 audit findings, ranked</span>
+      <span class="htag">Security shipped alongside features</span>
+    </div>
+  </div>
+</div>
+
+<section class="wrap" id="architecture">
+  <div class="section-head">
+    <span class="eyebrow">System Architecture</span>
+    <h2>Four parts, one verified chain of trust</h2>
+    <p>Every link below is also a trust boundary. Data only moves forward once it is validated, signed, and — for anything that triggers a real-world action — approved by a person.</p>
+  </div>
+  <div class="arch">
+    <svg viewBox="0 0 1160 480" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="#565f82" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+      </defs>
+
+      <rect x="20" y="40" width="240" height="170" rx="4" fill="#0b0f1e" stroke="#264a63" stroke-width="1.2"/>
+      <circle cx="36" cy="56" r="2.5" fill="#5ec8f0"/>
+      <text x="140" y="64" text-anchor="middle" fill="#5ec8f0" font-family="Space Mono" font-size="10.5" letter-spacing="0.5">PART 1 &#183; INTAKE</text>
+      <text x="140" y="86" text-anchor="middle" fill="#eef1fb" font-family="Space Grotesk" font-size="13.5" font-weight="600">Data &amp; Ingestion</text>
+      <text x="140" y="110" text-anchor="middle" fill="#93a0c2" font-family="Inter" font-size="11">FIRMS / weather / terrain</text>
+      <text x="140" y="128" text-anchor="middle" fill="#93a0c2" font-family="Inter" font-size="11">OSM roads + GTFS transit</text>
+      <text x="140" y="146" text-anchor="middle" fill="#93a0c2" font-family="Inter" font-size="11">Validation + corroboration</text>
+      <text x="140" y="170" text-anchor="middle" fill="#5ec8f0" font-family="Space Mono" font-size="9.5">source auth + anomaly checks</text>
+      <text x="140" y="188" text-anchor="middle" fill="#5ec8f0" font-family="Space Mono" font-size="9.5">encrypted storage</text>
+
+      <line x1="260" y1="125" x2="308" y2="125" stroke="#565f82" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#ah)"/>
+      <text x="284" y="117" text-anchor="middle" fill="#565f82" font-family="Space Mono" font-size="9">validated</text>
+
+      <rect x="310" y="40" width="240" height="170" rx="4" fill="#0b0f1e" stroke="#264a63" stroke-width="1.2"/>
+      <circle cx="326" cy="56" r="2.5" fill="#5ec8f0"/>
+      <text x="430" y="64" text-anchor="middle" fill="#5ec8f0" font-family="Space Mono" font-size="10.5" letter-spacing="0.5">PART 2 &#183; SENTINEL</text>
+      <text x="430" y="86" text-anchor="middle" fill="#eef1fb" font-family="Space Grotesk" font-size="13.5" font-weight="600">Prediction Engine</text>
+      <text x="430" y="110" text-anchor="middle" fill="#93a0c2" font-family="Inter" font-size="11">Ignition risk model</text>
+      <text x="430" y="128" text-anchor="middle" fill="#93a0c2" font-family="Inter" font-size="11">Spread nowcast surrogate</text>
+      <text x="430" y="146" text-anchor="middle" fill="#93a0c2" font-family="Inter" font-size="11">Threat-cone generator</text>
+      <text x="430" y="170" text-anchor="middle" fill="#5ec8f0" font-family="Space Mono" font-size="9.5">model versioning + rollback</text>
+      <text x="430" y="188" text-anchor="middle" fill="#5ec8f0" font-family="Space Mono" font-size="9.5">signs every output (HMAC)</text>
+
+      <line x1="550" y1="125" x2="598" y2="125" stroke="#5ec8f0" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#ah)"/>
+      <text x="574" y="117" text-anchor="middle" fill="#5ec8f0" font-family="Space Mono" font-size="9">signed threat cone</text>
+
+      <rect x="600" y="40" width="240" height="170" rx="4" fill="#0b0f1e" stroke="#3f3768" stroke-width="1.2"/>
+      <circle cx="616" cy="56" r="2.5" fill="#b48af5"/>
+      <text x="720" y="64" text-anchor="middle" fill="#b48af5" font-family="Space Mono" font-size="10.5" letter-spacing="0.5">PART 3 &#183; EXODUS</text>
+      <text x="720" y="86" text-anchor="middle" fill="#eef1fb" font-family="Space Grotesk" font-size="13.5" font-weight="600">Response Orchestration</text>
+      <text x="720" y="110" text-anchor="middle" fill="#93a0c2" font-family="Inter" font-size="11">Dynamic re-costed routing</text>
+      <text x="720" y="128" text-anchor="middle" fill="#93a0c2" font-family="Inter" font-size="11">Multi-modal dispatch sim</text>
+      <text x="720" y="146" text-anchor="middle" fill="#93a0c2" font-family="Inter" font-size="11">Vehicle pre-positioning</text>
+      <text x="720" y="170" text-anchor="middle" fill="#b48af5" font-family="Space Mono" font-size="9.5">verifies signature first</text>
+      <text x="720" y="188" text-anchor="middle" fill="#b48af5" font-family="Space Mono" font-size="9.5">RBAC + human-approval gate</text>
+
+      <line x1="840" y1="125" x2="888" y2="125" stroke="#b48af5" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#ah)"/>
+      <text x="864" y="117" text-anchor="middle" fill="#b48af5" font-family="Space Mono" font-size="9">approved dispatch</text>
+
+      <rect x="890" y="40" width="250" height="170" rx="4" fill="#0b0f1e" stroke="#3f3768" stroke-width="1.2"/>
+      <circle cx="906" cy="56" r="2.5" fill="#b48af5"/>
+      <text x="1015" y="64" text-anchor="middle" fill="#b48af5" font-family="Space Mono" font-size="10.5" letter-spacing="0.5">PART 4 &#183; INTERFACE</text>
+      <text x="1015" y="86" text-anchor="middle" fill="#eef1fb" font-family="Space Grotesk" font-size="13.5" font-weight="600">Identity, UI &amp; Ops</text>
+      <text x="1015" y="110" text-anchor="middle" fill="#93a0c2" font-family="Inter" font-size="11">Citizen alerts (SMS/app)</text>
+      <text x="1015" y="128" text-anchor="middle" fill="#93a0c2" font-family="Inter" font-size="11">Authority ops dashboard</text>
+      <text x="1015" y="146" text-anchor="middle" fill="#93a0c2" font-family="Inter" font-size="11">Auth, logging, infra, CI/CD</text>
+      <text x="1015" y="170" text-anchor="middle" fill="#b48af5" font-family="Space Mono" font-size="9.5">TLS + OAuth2/OIDC</text>
+      <text x="1015" y="188" text-anchor="middle" fill="#b48af5" font-family="Space Mono" font-size="9.5">opt-in consent + minimization</text>
+
+      <line x1="965" y1="210" x2="915" y2="258" stroke="#565f82" stroke-width="1" stroke-dasharray="3 3" marker-end="url(#ah)"/>
+      <line x1="1065" y1="210" x2="1115" y2="258" stroke="#565f82" stroke-width="1" stroke-dasharray="3 3" marker-end="url(#ah)"/>
+
+      <rect x="790" y="260" width="180" height="62" rx="4" fill="#0b0f1e" stroke="#1c2340" stroke-width="1"/>
+      <text x="880" y="284" text-anchor="middle" fill="#93a0c2" font-family="Space Mono" font-size="10">AUTHORITIES</text>
+      <text x="880" y="304" text-anchor="middle" fill="#eef1fb" font-family="Inter" font-size="11.5">Live ops dashboard</text>
+
+      <rect x="1035" y="260" width="180" height="62" rx="4" fill="#0b0f1e" stroke="#1c2340" stroke-width="1"/>
+      <text x="1125" y="284" text-anchor="middle" fill="#93a0c2" font-family="Space Mono" font-size="10">CITIZENS</text>
+      <text x="1125" y="304" text-anchor="middle" fill="#eef1fb" font-family="Inter" font-size="11.5">Route + pickup alert</text>
+
+      <path d="M880 322 C 700 400, 400 400, 260 290 L 260 210" stroke="#2a3155" stroke-width="1" fill="none" stroke-dasharray="2 4"/>
+      <circle cx="260" cy="210" r="2.5" fill="#565f82"/>
+      <text x="570" y="392" text-anchor="middle" fill="#565f82" font-family="Space Mono" font-size="9.5">evacuation status feeds back into Part 1 for the next prediction cycle</text>
+
+      <text x="20" y="450" fill="#565f82" font-family="Space Mono" font-size="10">Cyan = prediction-side (Parts 1&#8211;2) &#8194;&#8194; Violet = response-side (Parts 3&#8211;4) &#8194;&#8194; small mono labels = security control owned by that part</text>
+    </svg>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section class="wrap" id="quadrants">
+  <div class="section-head">
+    <span class="eyebrow">The Four Equal Parts</span>
+    <h2>One owner per part, security included in the job</h2>
+    <p>Each part is roughly equal in build effort. Each owner also carries their layer's security posture into the demo.</p>
+  </div>
+  <div class="quadrants">
+
+    <div class="qpart p1">
+      <div class="qtop"><span class="qnum">PART 1 / 4</span><span class="qowner">Data Engineer</span></div>
+      <div class="qname">INTAKE</div>
+      <div class="qsub">Data &amp; Ingestion</div>
+      <div class="qf"><span class="fl">Builds</span><ul>
+        <li>FIRMS/VIIRS + weather + terrain + fuel ETL</li>
+        <li>OSM road network + GTFS transit ingestion</li>
+        <li>Validation layer: bounds-checking, staleness detection</li>
+        <li>PostGIS data warehouse</li>
+      </ul></div>
+      <div class="qf"><span class="fl">Stack</span><div class="tags"><span>Python</span><span>Airflow</span><span>PostGIS</span><span>GDAL</span><span>Google Earth Engine</span></div></div>
+      <div class="sec-box"><span class="sbl">Security ownership</span><ul>
+        <li>API keys in a secrets manager, never hardcoded</li>
+        <li>Multi-source corroboration before a signal counts as confirmed</li>
+        <li>Encryption at rest for all raw and processed layers</li>
+        <li>SBOM and dependency scanning on ETL libraries</li>
+      </ul></div>
+    </div>
+
+    <div class="qpart p2">
+      <div class="qtop"><span class="qnum">PART 2 / 4</span><span class="qowner">ML Engineer</span></div>
+      <div class="qname">SENTINEL</div>
+      <div class="qsub">Prediction Engine</div>
+      <div class="qf"><span class="fl">Builds</span><ul>
+        <li>Ignition risk classifier vs. Fire Weather Index baseline</li>
+        <li>Spread nowcast: cellular automata &#8594; ConvLSTM</li>
+        <li>Threat-cone generator (1h/3h/6h probabilistic bounds)</li>
+        <li>Model registry and versioning</li>
+      </ul></div>
+      <div class="qf"><span class="fl">Stack</span><div class="tags"><span>PyTorch</span><span>xgboost</span><span>MLflow</span><span>scikit-learn</span></div></div>
+      <div class="sec-box"><span class="sbl">Security ownership</span><ul>
+        <li>Sign every threat-cone payload (HMAC) before it leaves SENTINEL</li>
+        <li>Model versioning with one-click rollback</li>
+        <li>Drift monitoring on inputs, to catch poisoning attempts</li>
+        <li>Rate-limited internal model-serving API</li>
+      </ul></div>
+    </div>
+
+    <div class="qpart p3">
+      <div class="qtop"><span class="qnum">PART 3 / 4</span><span class="qowner">Systems / Algorithms Engineer</span></div>
+      <div class="qname">EXODUS</div>
+      <div class="qsub">Response Orchestration</div>
+      <div class="qf"><span class="fl">Builds</span><ul>
+        <li>Dynamic routing graph with real-time re-costing</li>
+        <li>Multi-modal dispatch simulator</li>
+        <li>OR-based vehicle pre-positioning</li>
+        <li>Emergency-mode trigger logic</li>
+      </ul></div>
+      <div class="qf"><span class="fl">Stack</span><div class="tags"><span>NetworkX</span><span>OSRM</span><span>FastAPI</span><span>Redis</span><span>GTFS-RT</span></div></div>
+      <div class="sec-box"><span class="sbl">Security ownership</span><ul>
+        <li>Reject any threat-cone update that fails signature verification</li>
+        <li>RBAC defining exactly who can authorize emergency mode</li>
+        <li>Human-approval gate before mass dispatch — no full autonomy</li>
+        <li>Load and chaos-test the re-costing engine under burst traffic</li>
+      </ul></div>
+    </div>
+
+    <div class="qpart p4">
+      <div class="qtop"><span class="qnum">PART 4 / 4</span><span class="qowner">Full-Stack / Platform Engineer</span></div>
+      <div class="qname">INTERFACE</div>
+      <div class="qsub">Identity, UI &amp; Ops</div>
+      <div class="qf"><span class="fl">Builds</span><ul>
+        <li>Citizen alert app / SMS gateway</li>
+        <li>Authority ops dashboard: live map, vehicle status</li>
+        <li>Auth system: OAuth2/OIDC + phone-verified opt-in</li>
+        <li>Observability, CI/CD, infrastructure as code</li>
+      </ul></div>
+      <div class="qf"><span class="fl">Stack</span><div class="tags"><span>React</span><span>WebSockets</span><span>Leaflet</span><span>Terraform</span><span>Prometheus/Grafana</span></div></div>
+      <div class="sec-box"><span class="sbl">Security ownership</span><ul>
+        <li>TLS everywhere, secrets manager, no hardcoded credentials</li>
+        <li>Full audit log of every authority-side action</li>
+        <li>Data minimization and encryption for citizen location data</li>
+        <li>DDoS protection and rate limiting on public endpoints</li>
+      </ul></div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider">
+
+<section class="wrap" id="audit">
+  <div class="section-head">
+    <span class="eyebrow">IT Security Audit</span>
+    <h2>What's missing today, ranked by how much it matters</h2>
+    <p>The gaps as the architecture stands before the hardening work is done — ranked by severity, each mapped to the part that owns the fix.</p>
+  </div>
+
+  <div class="tier-block">
+    <div class="tier-head"><span class="tier-dot crit"></span><h3>Tier 1 — Critical, life-safety</h3><span class="tcount">5 findings &#183; fix before any real pilot</span></div>
+    <div class="audit-row"><div><div class="an">No integrity check on the threat-cone payload</div><div class="ad">An altered fire polygon between SENTINEL and EXODUS could misroute evacuees — the single most dangerous gap in the system.</div></div><div class="ao">Parts 2 + 3</div><div class="afix">HMAC signing</div></div>
+    <div class="audit-row"><div><div class="an">No human-in-the-loop override</div><div class="ad">A fully automated mass-evacuation trigger with no veto path is dangerous in both directions.</div></div><div class="ao">Part 3</div><div class="afix">approval gate</div></div>
+    <div class="audit-row"><div><div class="an">No offline / degraded-mode fallback</div><div class="ad">Wildfires routinely take out power and cell towers, exactly when the system is needed most.</div></div><div class="ao">Part 4</div><div class="afix">cached last-known-good state</div></div>
+    <div class="audit-row"><div><div class="an">No RBAC or audit log on dispatch actions</div><div class="ad">No record of who authorized what, and no restriction on who can.</div></div><div class="ao">Parts 3 + 4</div><div class="afix">role-gated actions</div></div>
+    <div class="audit-row"><div><div class="an">No source validation on inbound data</div><div class="ad">A single spoofed or faulty weather/hotspot feed can trigger a false threat cone unchecked.</div></div><div class="ao">Part 1</div><div class="afix">multi-source corroboration</div></div>
+  </div>
+
+  <div class="tier-block">
+    <div class="tier-head"><span class="tier-dot req"></span><h3>Tier 2 — Required before production</h3><span class="tcount">6 findings</span></div>
+    <div class="audit-row"><div><div class="an">No encryption or auth layer specified</div><div class="ad">No TLS, no OAuth2/OIDC, no secrets manager anywhere in the current design.</div></div><div class="ao">Part 4</div><div class="afix">TLS + OIDC + vault</div></div>
+    <div class="audit-row"><div><div class="an">No rate limiting or DDoS protection</div><div class="ad">Public endpoints are exactly what a traffic spike during a real fire would hit hardest.</div></div><div class="ao">Part 4</div><div class="afix">rate limits + edge caching</div></div>
+    <div class="audit-row"><div><div class="an">No CI/CD or automated testing pyramid</div><div class="ad">No unit, integration, load, or chaos testing defined anywhere in the build.</div></div><div class="ao">All, coordinated by Part 4</div><div class="afix">test pyramid + pipeline</div></div>
+    <div class="audit-row"><div><div class="an">No observability stack</div><div class="ad">No logging, metrics, or tracing — an outage in the system itself would go unnoticed.</div></div><div class="ao">Part 4</div><div class="afix">logs + metrics + alerting</div></div>
+    <div class="audit-row"><div><div class="an">No model monitoring for drift or poisoning</div><div class="ad">A slowly degrading or subtly poisoned model would ship silently.</div></div><div class="ao">Part 2</div><div class="afix">drift dashboards</div></div>
+    <div class="audit-row"><div><div class="an">No data-protection compliance review</div><div class="ad">Citizen location data implies real obligations under India's Digital Personal Data Protection Act.</div></div><div class="ao">Part 4</div><div class="afix">consent + minimization</div></div>
+  </div>
+
+  <div class="tier-block">
+    <div class="tier-head"><span class="tier-dot scale"></span><h3>Tier 3 — Scaling maturity</h3><span class="tcount">4 findings</span></div>
+    <div class="audit-row"><div><div class="an">No SBOM / dependency scanning</div><div class="ad">Open-source supply-chain risk is currently unmanaged.</div></div><div class="ao">Part 1, then all</div><div class="afix">Dependabot / Snyk</div></div>
+    <div class="audit-row"><div><div class="an">No formal SLAs or disaster-recovery runbooks</div><div class="ad">No defined recovery process if the platform itself goes down.</div></div><div class="ao">Parts 3 + 4</div><div class="afix">DR runbook + drills</div></div>
+    <div class="audit-row"><div><div class="an">No third-party penetration test planned</div><div class="ad">Self-review only, needed before any conversation with a real disaster-management authority.</div></div><div class="ao">All</div><div class="afix">external pen test</div></div>
+    <div class="audit-row"><div><div class="an">No accessibility plan</div><div class="ad">No multilingual alerts, no feature-phone SMS fallback for citizens without smartphone data.</div></div><div class="ao">Part 4</div><div class="afix">multilingual + SMS</div></div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section class="wrap" id="controls">
+  <div class="section-head">
+    <span class="eyebrow">Security Controls Map</span>
+    <h2>Every trust boundary, one control each</h2>
+  </div>
+  <div class="controls-map">
+    <div class="ctrl"><div class="cb">BOUNDARY 01</div><h4>Data source &#8594; Part 1</h4><p>Authenticated API keys in a secrets manager, plus anomaly bounds on every inbound reading.</p></div>
+    <div class="ctrl"><div class="cb">BOUNDARY 02</div><h4>Part 1 &#8594; Part 2</h4><p>Only validated, corroborated, timestamped data reaches the model.</p></div>
+    <div class="ctrl"><div class="cb">BOUNDARY 03</div><h4>Part 2 &#8594; Part 3</h4><p>HMAC-signed threat-cone payload; EXODUS verifies the signature before trusting it.</p></div>
+    <div class="ctrl"><div class="cb">BOUNDARY 04</div><h4>Part 3 &#8594; real vehicles</h4><p>RBAC-gated action plus mandatory human approval before emergency mode activates.</p></div>
+    <div class="ctrl"><div class="cb">BOUNDARY 05</div><h4>Part 4 &#8594; authorities</h4><p>OAuth2/OIDC login, full audit log of every dashboard action taken.</p></div>
+    <div class="ctrl"><div class="cb">BOUNDARY 06</div><h4>Part 4 &#8594; citizens</h4><p>TLS-encrypted, opt-in only, minimal data retained, rate-limited alert delivery.</p></div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section class="wrap" id="plan">
+  <div class="section-head">
+    <span class="eyebrow">Six-Month Plan, Four Tracks</span>
+    <h2>Security ships alongside features, not after them</h2>
+    <p>Each part owner builds and hardens their layer in the same sprint, instead of a security pass bolted on in month six.</p>
+  </div>
+  <table class="plan-table">
+    <thead><tr><th>Track</th><th>M1</th><th>M2</th><th>M3</th><th>M4</th><th>M5</th><th>M6</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="tname"><span class="ptag">PART 1</span>Intake</td>
+        <td>Pipeline skeleton</td><td>Validation logic</td><td class="sec">Encryption + SBOM</td><td>Integration</td><td>Load test</td><td>Polish</td>
+      </tr>
+      <tr>
+        <td class="tname"><span class="ptag">PART 2</span>Sentinel</td>
+        <td>Baseline risk model</td><td>Spread nowcast</td><td class="sec">Signed payloads</td><td>Integration</td><td>Historical back-test</td><td>Polish</td>
+      </tr>
+      <tr>
+        <td class="tname"><span class="ptag">PART 3</span>Exodus</td>
+        <td>Static routing graph</td><td>Dynamic re-costing</td><td class="sec">RBAC + approval gate</td><td>Integration</td><td>Chaos test</td><td>Polish</td>
+      </tr>
+      <tr>
+        <td class="tname"><span class="ptag">PART 4</span>Interface</td>
+        <td>Dashboard + auth shell</td><td>Citizen alert mock</td><td class="sec">TLS + rate limiting</td><td>Integration</td><td>Security review</td><td>Demo + pitch</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<footer>AGNIMARG — ARCHITECTURE, TEAM SPLIT &amp; IT SECURITY AUDIT — TEAM OF 4</footer>
+
+</body>
+</html>

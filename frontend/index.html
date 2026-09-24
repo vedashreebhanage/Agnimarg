@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AGNIMARG — Prototype Demo</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header>
+  <div class="brand">AGNI<span>MARG</span> <span class="tag">software-only prototype</span></div>
+  <div id="loginBox" class="login-box">
+    <input id="loginUsername" type="text" placeholder="username (try authority1)" size="20" />
+    <input id="loginPassword" type="password" placeholder="password (demo-authority-pass)" size="22" />
+    <button id="btnLogin">Log in</button>
+    <span id="loginStatus" class="login-status">Not signed in</span>
+  </div>
+</header>
+
+<div id="banner" class="banner">Loading demo state…</div>
+
+<main>
+  <div id="map"></div>
+
+  <aside id="panel">
+    <section>
+      <h2>1. Intake &amp; Sentinel</h2>
+      <div class="row">
+        <button id="btnSimScenario" class="primary">Run simulation (fire-season scenario)</button>
+      </div>
+      <div class="row">
+        <button id="btnSimLive">Run with live weather instead</button>
+      </div>
+      <div id="weatherReadout" class="readout">—</div>
+      <div id="riskReadout" class="readout">—</div>
+    </section>
+
+    <section>
+      <h2>2. Exodus — evacuation route</h2>
+      <div id="routeReadout" class="readout">Run a simulation to compute routes.</div>
+      <div class="legend">
+        <span><i class="swatch baseline"></i> Baseline (ignoring fire)</span>
+        <span><i class="swatch safe"></i> Re-costed safe route</span>
+        <span><i class="swatch blocked"></i> Blocked road segment</span>
+      </div>
+    </section>
+
+    <section>
+      <h2>3. Security demo</h2>
+      <div class="row">
+        <button id="btnTamper" disabled>Tamper the signed payload &amp; replay</button>
+      </div>
+      <div id="tamperReadout" class="readout">Run a simulation first, then try to feed EXODUS a tampered payload — it should reject it.</div>
+    </section>
+
+    <section>
+      <h2>4. Human-approval dispatch gate</h2>
+      <div class="row">
+        <button id="btnApprove" disabled>Approve dispatch</button>
+      </div>
+      <div id="approveReadout" class="readout">Log in as an "authority" user to approve. Demo credentials: authority1 / demo-authority-pass, or citizen1 / demo-citizen-pass (citizen will be denied — that's the point).</div>
+    </section>
+
+    <section>
+      <h2>Audit log</h2>
+      <div id="auditLog" class="audit-log"></div>
+    </section>
+  </aside>
+</main>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

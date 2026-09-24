@@ -1,0 +1,48 @@
+{
+  "label": "SEEDED DEMO EVENT \u2014 not a live FIRMS feed",
+  "note": "Illustrative fire event in the Pangot/Kilbary forest belt near Nainital, Uttarakhand, replayed as 'now' for demo reliability. This region has real recurring pine-forest fire activity in the Apr-Jun season (2021 was severe). Add a NASA FIRMS MAP_KEY to replace this with a live satellite feed.",
+  "hotspots": [
+    {
+      "id": "seed-1",
+      "lat": 29.4187,
+      "lon": 79.431,
+      "confidence": "nominal",
+      "frp_mw": 18.4,
+      "near": "Pangot forest belt"
+    },
+    {
+      "id": "seed-2",
+      "lat": 29.4201,
+      "lon": 79.4338,
+      "confidence": "high",
+      "frp_mw": 27.1,
+      "near": "Pangot forest belt"
+    },
+    {
+      "id": "seed-3",
+      "lat": 29.4172,
+      "lon": 79.4295,
+      "confidence": "nominal",
+      "frp_mw": 12.9,
+      "near": "Kilbary ridge"
+    }
+  ],
+  "village_at_risk": {
+    "name": "Pangot",
+    "lat": 29.42413,
+    "lon": 79.4270401
+  },
+  "shelter": {
+    "name": "Sitapur Hospital, Nainital",
+    "lat": 29.3905118,
+    "lon": 79.457564
+  },
+  "fire_season_scenario_weather": {
+    "source": "seeded fire-season scenario (Apr-Jun representative, NOT live)",
+    "temperature_c": 34.0,
+    "humidity_pct": 15.0,
+    "wind_speed_kmh": 20.0,
+    "wind_direction_deg": 322,
+    "observed_at": null
+  }
+}

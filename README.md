@@ -1,0 +1,38 @@
+# AGNIMARG
+
+Software-only wildfire intelligence & evacuation-routing prototype for Indian forests, built for a mid-semester review. Four parts — **INTAKE** (data), **SENTINEL** (prediction), **EXODUS** (evacuation routing), **INTERFACE** (dashboard) — see `BUILD_PLAN.md` for the full scope, what's real vs. seeded, and the demo script.
+
+## Run
+
+```
+pip install -r requirements.txt
+uvicorn backend.main:app --reload
+```
+
+Open `http://127.0.0.1:8000/` and click **Run simulation (fire-season scenario)**.
+
+To use live NASA FIRMS hotspots instead of the seeded demo event, set a free API key (instant signup: https://firms.modaps.eosdis.nasa.gov/api/map_key/) before starting the server:
+```
+export AGNIMARG_FIRMS_MAP_KEY=your_key_here
+```
+Falls back to the seeded event automatically if the key is unset or the request fails.
+
+## Tests
+
+```
+pytest tests/ -v
+```
+
+## What this is
+
+A real Leaflet dashboard over a real OpenStreetMap road network (Nainital, Uttarakhand), with a live Open-Meteo weather integration, a heuristic fire-spread risk model that generates HMAC-signed threat cones, and a NetworkX router that dynamically re-costs the road graph around the threat and recomputes a safe evacuation route — with a human-approval dispatch gate and a persistent (SQLite) audit log.
+
+Fire hotspots are a seeded historical-style event by default (not a live NASA FIRMS feed unless you set the API key above). Everything seeded or heuristic is labeled as such in the UI and in `BUILD_PLAN.md`.
+
+## Docs
+
+- `BUILD_PLAN.md` — what was built, why, and the review demo script
+- `agnimarg-architecture-audit-space.html`, `comparativeStudy.html` — original architecture & security audit, comparative study
+- `agnimarg_master_blueprint.html`, `Agnimarg_Complete_Software_Tech_Stack_India.pdf` — full production-scale reference blueprints (roadmap, not built yet)
+- `AGNIMARG_Prototype_Plan.docx` — the ₹0/free-tier stack this build follows
+- `AGNIMARG_Literature_Review.docx` — prior-art survey / novelty framing
