@@ -6,3 +6,19 @@ node_modules/
 *.log
 .pytest_cache/
 backend/data/audit.db
+
+# Secrets (FIRMS MAP_KEY, Copernicus CDS API key)
+.env
+
+# Downloaded and derived data: recorded in data/manifest.csv, never committed
+data/raw/
+data/processed/
+
+# Large geospatial files and model weights
+*.tif
+*.tiff
+*.nc
+*.grib
+*.zip
+*.pkl
+*.joblib
