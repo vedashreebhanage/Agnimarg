@@ -27,6 +27,14 @@ from shapely import contains_xy
 BLOCK = 2048  # pixels per side read at a time (about 4 million pixels, ~20 km at 10 m)
 
 
+def cell_index(x, y, x0: float, y0: float, size: float, ncol: int, nrow: int):
+    """Map projected coordinates to grid (row, col). `ok` is False for points outside the grid."""
+    col = np.floor((np.asarray(x) - x0) / size).astype(np.int64)
+    row = np.floor((np.asarray(y) - y0) / size).astype(np.int64)
+    ok = (col >= 0) & (col < ncol) & (row >= 0) & (row < nrow)
+    return row, col, ok
+
+
 def load_config(path: str) -> dict:
     with open(path, encoding="utf-8") as f:
         return yaml.safe_load(f)
@@ -87,9 +95,8 @@ def build_grid(cfg: dict) -> pd.DataFrame:
                     lats = src.transform.f + (r + np.arange(h) + 0.5) * src.transform.e
                     LON, LAT = np.meshgrid(lons, lats)
                     px, py = to_grid.transform(LON.ravel(), LAT.ravel())
-                    ci = np.floor((px - x0) / size).astype(np.int64)
-                    ri = np.floor((py - y0) / size).astype(np.int64)
-                    ok = (ci >= 0) & (ci < ncol) & (ri >= 0) & (ri < nrow) & (data.ravel() != 0)  # 0 = no data
+                    ri, ci, inside = cell_index(px, py, x0, y0, size, ncol, nrow)
+                    ok = inside & (data.ravel() != 0)  # 0 = no data
                     idx = ri[ok] * ncol + ci[ok]
                     vals = data.ravel()[ok]
                     total += np.bincount(idx, minlength=nrow * ncol)

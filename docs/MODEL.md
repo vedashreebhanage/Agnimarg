@@ -38,7 +38,7 @@ graphics card and about 15 GB free disk (measured 2026-11-16).
 | # | Decision | Choice |
 |---|----------|--------|
 | M1 | Prediction unit | 1 km cell x 1 day, forest and scrub cells only |
-| M2 | Label | At least one VIIRS detection that day with type 0 and nominal/high confidence, after masking cropland and built-up cells with WorldCover |
+| M2 | Label | At least one kept detection from VIIRS on S-NPP or NOAA-20 on that local (IST) date, from 2018-04-01 (when both satellites operate). Kept = FIRMS type 0, nominal/high confidence, centre not on a WorldCover cropland or built-up pixel. Revised 2026-11-17: each satellite alone misses about 60% of the cell-days the other detects |
 | M3 | Model | LightGBM; XGBoost run once as a cross-check |
 | M4 | Baselines to beat | Climatology (cell's historical fire rate for that month); the prototype's FWI-style heuristic; logistic regression |
 | M5 | Split | Train on seasons to 2022, validate on 2023, test on 2024 onward. Also hold out a region: train Garhwal, test Kumaon, and the reverse |

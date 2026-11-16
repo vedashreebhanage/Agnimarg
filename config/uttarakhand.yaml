@@ -20,5 +20,19 @@ land_cover:
   # A cell is modelled if at least this share of it is tree cover + shrubland (docs/MODEL.md, M1).
   forest_min_fraction: 0.30
 
+labels:
+  # FIRMS archive files (quality-checked "standard" processing). NRT files are not used for training.
+  sources:
+    snpp: dataset/fire_archive_SV-C2_811649.csv      # VIIRS on S-NPP, 2016-09 onward
+    noaa20: dataset/fire_archive_J1V-C2_811647.csv   # VIIRS on NOAA-20, 2018-04 onward
+  # A cell-day is a fire if any of these satellites detected one. Labels start when all of them
+  # are operating, so the chance of seeing a fire is the same in every year.
+  label_sensors: [snpp, noaa20]
+  label_start_date: "2018-04-01"
+  utc_offset_minutes: 330        # India Standard Time; detections are assigned to the local date
+  keep_type: 0                   # FIRMS type 0 = presumed vegetation fire
+  drop_confidence: [l]           # drop low-confidence detections
+  exclude_land_cover: [40, 50]   # drop detections whose centre falls on cropland or built-up land
+
 output_dir: data/processed/uttarakhand
 seed: 20261116
