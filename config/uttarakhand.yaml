@@ -1,0 +1,24 @@
+# Region configuration: Uttarakhand (region 1). One file per region; code never hard-codes a region.
+region:
+  name: uttarakhand
+  boundary_file: data/raw/geoboundaries_ind_adm1/geoBoundaries-IND-ADM1.geojson
+  boundary_iso: IN-UT            # value of the shapeISO field for this state
+
+grid:
+  crs: EPSG:32644                # WGS 84 / UTM zone 44N: metres, so cells are true 1 km squares
+  cell_size_m: 1000
+
+land_cover:
+  source_dir: data/raw/esa_worldcover_2021_v200
+  # ESA WorldCover class codes
+  classes:
+    tree: 10
+    shrub: 20
+    grass: 30
+    crop: 40
+    built: 50
+  # A cell is modelled if at least this share of it is tree cover + shrubland (docs/MODEL.md, M1).
+  forest_min_fraction: 0.30
+
+output_dir: data/processed/uttarakhand
+seed: 20261116
