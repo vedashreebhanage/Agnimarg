@@ -62,15 +62,21 @@ Software only for now. A ground-sensor pilot is deferred until the team meets.
 | 1 | **Risk** | Daily fire probability per grid cell from weather, terrain, vegetation/fuel proxies and human factors | None — build first |
 | 2 | **Detection** | Ingest satellite hotspots (VIIRS/MODIS) and track active fires | None — build alongside layer 1 |
 | 3 | **Spread** | Where an active fire moves over the next 6–24 hours | Fuel-data check (section 5) |
-| 4 | **Exposure** | Which villages and roads are in the predicted path; time to impact | Layer 3 producing output |
-| 5 | **Evacuation routing** | Routes and timing for exposed settlements | Layer 3 validated against real fires; road-data coverage checked |
-| 6 | **Digital twin** | Continuous live updating of an active fire's state from new observations | Layer 3 working |
+| 4 | **Exposure** | Which villages and roads are in the predicted path; time to impact | Threat zones (docs/MODEL.md section 4) |
+| 5 | **Evacuation routing** | Routes and timing for exposed settlements | Threat zones; road-data coverage checked; decision-support labelling |
+| 6 | **Digital twin** | Continuous live updating of an active fire's state from new observations | Research only |
 
-Decided in stage 2:
-- **Digital twin vs ML only:** ML first; digital twin is a later layer (6), not the starting point.
-- **Spread prediction:** in scope, built after risk (layer 3).
-- **Evacuation:** in scope as full evacuation planning, delivered in two steps — exposure and
-  time-to-impact first (layer 4), routing once the spread model is validated (layer 5).
+Decided in stage 2, revised 2026-11-16:
+- **Digital twin vs ML only:** ML first; digital twin is research, not part of the delivered software.
+- **Spread prediction:** validated spread forecasting is research only. The software includes
+  precautionary worst-case threat zones (1, 3 and 6 hours), used for exposure and evacuation.
+- **Evacuation:** in the software now, based on threat zones and active detections, labelled as
+  decision support for officials. The earlier gate (routing only after a validated spread model)
+  is withdrawn.
+- **Coverage:** one region at a time, starting with Uttarakhand; a second region only after the
+  first works end to end. Reason: the development PC cannot train on all of India.
+- **Delivery:** a complete website on localhost first; hosting and PostGIS afterwards.
+- Model decisions are recorded in `docs/MODEL.md`.
 
 ### 3.2 Design commitments (from the stage-1 research)
 1. **Gradient-boosted trees** (XGBoost/LightGBM) for tabular risk prediction; neural networks only
@@ -126,12 +132,11 @@ Licences were read from source pages. Nothing has been downloaded yet.
 
 ## 6. Open decisions
 
-1. **Pilot region.** Proposed: Uttarakhand (most 2023-24 detections, 12 deaths in 2024, villages
-   inside forest, steep terrain). Alternative: Odisha (largest burnt areas). Not yet decided.
+1. **Pilot region.** Decided 2026-11-16: Uttarakhand. Second region not yet chosen.
 2. **Village warning channel** (SMS, WhatsApp, IVR or other) — stage 3.
 3. **Whether to request FSI's fuel raster** — draft email offered, not yet sent.
-4. **Data storage location** — a folder on Ayush's PC or in the repository (large rasters should not
-   go into git).
+4. **Data storage location.** Decided 2026-11-09: `data/raw/` inside the repository folder,
+   git-ignored; every file recorded in `data/manifest.csv`.
 
 ---
 

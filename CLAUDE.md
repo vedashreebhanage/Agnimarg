@@ -17,6 +17,7 @@ Stakes are high: no mistakes in data, training, testing or the repository.
 
 Full context lives in:
 - `docs/PROBLEM_STATEMENT.md` — the approved problem, users, solution layers, data table, risks.
+- `docs/MODEL.md` — model choices, quality bars, known limits.
 - `docs/research/RESEARCH.md` — analysed papers (E1–E8).
 - `docs/research/INDIA_PROBLEM.md` — India fire facts, causes, systems, datasets, with sources.
 - `docs/research/STAGE1_FINDINGS.md` — gaps, options, ML-vs-DL evidence, verification backlog.
@@ -51,8 +52,8 @@ task lists, branches — without Ayush's explicit approval.**
 | 1 | Research, gaps, challenges | Done (docs/research/) |
 | 2 | Problem statement and solution definition | Done (docs/PROBLEM_STATEMENT.md) |
 | 3 | Feasibility analysis; innovate on overcoming challenges | **Next** |
-| 4 | Extract all datasets (pilot region first) | Not started for the pilot pipeline; 7 FIRMS CSVs already in `dataset/`, provenance unrecorded |
-| 5 | Model document: training, model choice, pros/cons, how it helps | Not started |
+| 4 | Extract all datasets (pilot region first) | In progress: Uttarakhand data downloaded and in the manifest except ERA5-Land (downloading) and fuel data |
+| 5 | Model document: training, model choice, pros/cons, how it helps | In progress: docs/MODEL.md |
 | 6 | Repository build-out | Partly done: software prototype on `main` (Sept 2026), see `BUILD_PLAN.md` |
 
 Rule from the project: research must be complete before design, and a written plan must exist
@@ -61,18 +62,19 @@ before implementation. Do not skip ahead.
 ### Decisions already made (stage 2)
 - Primary users: forest department staff and district administration; villagers receive warnings.
 - Build order: Risk → Detection → Spread → Exposure → Evacuation routing → Digital twin.
-- ML first (gradient-boosted trees for tabular data); digital twin is a later layer.
-- Spread prediction in scope, after the risk layer.
-- Full evacuation planning in scope, delivered in two steps: exposure/time-to-impact first,
-  routing only after the spread model is validated.
+- ML first (gradient-boosted trees for tabular data); digital twin is research only.
+- Validated spread forecasting is research only; the software uses precautionary threat zones.
+- Exposure and evacuation are in the software now, based on threat zones, labelled decision support.
+- Coverage: Uttarakhand first; a second region only after it works end to end.
+- Website on localhost first; hosting and PostGIS afterwards.
+- Model decisions: `docs/MODEL.md`.
 
 ### Open decisions (ask Ayush; do not decide)
-1. Pilot region — proposed Uttarakhand; alternative Odisha.
-2. Where downloaded data lives (local folder vs elsewhere; never in git).
+1. Second region (Uttarakhand is decided as region 1).
+2. Forecast weather source for the live risk map.
 3. Village warning channel (SMS / WhatsApp / IVR / other).
 4. Whether to request FSI's 2023-24 surface fuel load raster (a draft email was offered).
-5. The prototype routes evacuations on a heuristic cone: keep as a demo, relabel, or gate behind
-   the spread model?
+5. Threat-zone spread rates and the wording of the evacuation disclaimer.
 
 ## 5. First session checklist
 
