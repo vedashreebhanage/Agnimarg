@@ -20,6 +20,20 @@ land_cover:
   # A cell is modelled if at least this share of it is tree cover + shrubland (docs/MODEL.md, M1).
   forest_min_fraction: 0.30
 
+terrain:
+  source_dir: data/raw/copernicus_dem_glo30
+
+static:
+  population_file: data/raw/worldpop_2020_constrained/ind_ppp_2020_constrained.tif
+  osm_file: data/raw/osm_geofabrik/central-zone-latest_downloaded-2026-11-09.osm.pbf
+  # OpenStreetMap "highway" values, grouped
+  road_classes:
+    motorable: [motorway, trunk, primary, secondary, tertiary, motorway_link, trunk_link,
+                primary_link, secondary_link, tertiary_link, unclassified, residential,
+                living_street, service, road]
+    path: [track, path, footway, bridleway, steps, cycleway, pedestrian]
+  place_types: [city, town, village, hamlet]
+
 labels:
   # FIRMS archive files (quality-checked "standard" processing). NRT files are not used for training.
   sources:
