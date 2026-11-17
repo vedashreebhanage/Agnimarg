@@ -49,8 +49,12 @@ graphics card and about 15 GB free disk (measured 2026-11-16).
 
 Calibration: isotonic regression fitted on the validation season.
 
-Leakage rule: every feature uses only data from before the prediction date. An automated test
-checks this on every run.
+Leakage rule: no feature uses fire observations from the prediction date or later. Weather
+history features use only days before the prediction date. Weather for the prediction date itself
+is allowed, because in live use it comes from a forecast; in training it comes from ERA5-Land,
+which is more accurate than any forecast, so live skill will be somewhat lower than test scores
+until the model is tested on forecast weather. Automated tests check the history features on
+every run. (Revised 2026-11-17.)
 
 ### Quality bars before the forecast is shown as a product
 1. Beats all three baselines on the held-out seasons and on the held-out region.

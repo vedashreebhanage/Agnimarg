@@ -34,6 +34,9 @@ static:
     path: [track, path, footway, bridleway, steps, cycleway, pedestrian]
   place_types: [city, town, village, hamlet]
 
+weather:
+  source_dir: data/raw/era5_land      # hourly ERA5-Land, one file per month
+
 labels:
   # FIRMS archive files (quality-checked "standard" processing). NRT files are not used for training.
   sources:
