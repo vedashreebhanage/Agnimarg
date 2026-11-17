@@ -51,5 +51,17 @@ labels:
   drop_confidence: [l]           # drop low-confidence detections
   exclude_land_cover: [40, 50]   # drop detections whose centre falls on cropland or built-up land
 
+table:
+  season_months: [11, 12, 1, 2, 3, 4, 5, 6]   # fire season November to June
+  season_end_month: 6                          # a season is named by the year it ends
+  splits:                                      # docs/MODEL.md, M5
+    train_last_season: 2022
+    valid_seasons: [2023]
+    test_first_season: 2024
+  sample_rate_train: 0.02     # share of no-fire rows kept for training (fire rows are all kept)
+  sample_rate_eval: 0.10      # share kept for validation and test, for steadier scores
+  neighbour_radius_cells: 2   # nbr_fire_recent counts fires within 2 cells (a 5 x 5 km square)
+  recent_fire_days: 7
+
 output_dir: data/processed/uttarakhand
 seed: 20261116
