@@ -34,7 +34,8 @@ task lists, branches — without Ayush's explicit approval.**
 
 ## 3. Git rules
 
-- Work only on the branch **`vedashree`**. Never commit or push to `main` or any other branch.
+- Repository: https://github.com/vedashreebhanage/Agnimarg (moved from SlothDevelopers/agniMarg
+  on 2026-11-20). Work on its only branch, **`main`**. Never push to the old SlothDevelopers repo.
 - Before any commit, show the staged diff and the commit message and wait for approval.
 - Author and committer must be **only** vedashree bhanage `<vedbhanage@gmail.com>`.
   - **No** `Co-Authored-By: Claude` trailer, **no** Claude session link, **no** "Generated with
@@ -82,7 +83,7 @@ Do these in order, proposing each before acting:
 
 1. Run `git status`, `git branch -a` and list the repo tree. Report what already exists — do not
    change it.
-2. Confirm you are on `vedashree` (or propose creating/checking it out from the right base).
+2. Confirm you are on `main` of vedashreebhanage/Agnimarg.
 3. Propose a folder structure. It must keep these areas strictly separate:
    - **AI/ML** — models, training, evaluation
    - **Satellite imagery** — sources, preprocessing, pipelines
