@@ -1,6 +1,6 @@
 # Exact versions used for the data pipeline and model (Python 3.13.1, Windows).
 # The web app's own requirements stay in requirements.txt.
-numpy==2.4.1
+numpy==2.5.5
 pandas==3.0.5
 pyarrow==24.0.0
 geopandas==1.1.3
